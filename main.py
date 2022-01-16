@@ -32,26 +32,39 @@ def count_clicks(token, link):
         "Authorization": token
     }
     parsed = urlparse(link)
-    bitlink = parsed.netloc + parsed.path
+    bitlink = parsed.hostname + parsed.path
     response = requests.get(bitly_url.format(bitlink=bitlink), headers=headers)
     response.raise_for_status()
     clicks_count = response.json()["total_clicks"]
     return clicks_count
 
 
+def is_bitlink(link):
+    parsed = urlparse(link)
+    link_hostname = parsed.hostname
+    bitly_hostname = "bit.ly"
+    return link_hostname == bitly_hostname
+
+
 def main():
     token = "Bearer 460748298a0b18b03b167966218c85ceac477e41"
-    link = input("Введите ссылку, которую хотите сократить: ")
-    default_url = "https://www.kinopoisk.ru/film/1320623/"
-    try:
-        bitlink = shorten_link(token, link)
-        clicks_count = count_clicks(token, bitlink)
-    except requests.exceptions.HTTPError as err:
-        print("General Error, incorrect link\n", str(err))
-    except requests.ConnectionError as err:
-        print("Connection Error. Check Internet connection.\n", str(err))
-    print("Битлинк:", bitlink)
-    print("Количество кликов по ссылке:", clicks_count)
+    link = input("Введите ссылку: ")
+    if is_bitlink(link):
+        try:
+            clicks_count = count_clicks(token, link)
+            print("Количество кликов по ссылке:", clicks_count)
+        except requests.exceptions.HTTPError as err:
+            print("General Error, incorrect link\n", str(err))
+        except requests.ConnectionError as err:
+            print("Connection Error. Check Internet connection.\n", str(err))
+    else:
+        try:
+            bitlink = shorten_link(token, link)
+            print("Битлинк:", bitlink)
+        except requests.exceptions.HTTPError as err:
+            print("General Error, incorrect link\n", str(err))
+        except requests.ConnectionError as err:
+            print("Connection Error. Check Internet connection.\n", str(err))
 
 
 if __name__ == "__main__":
