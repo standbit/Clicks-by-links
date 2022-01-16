@@ -4,6 +4,7 @@ import requests
 from urllib.parse import urlparse
 
 load_dotenv()
+TOKEN = os.getenv("TOKEN")
 
 
 def shorten_link(token, link):
@@ -12,7 +13,7 @@ def shorten_link(token, link):
         "long_url": link
     }
     headers = {
-        "Authorization": token
+        "Authorization": f"Bearer {token}"
         }
     response = requests.post(bitly_url, headers=headers, json=payload)
     response.raise_for_status()
@@ -23,7 +24,7 @@ def shorten_link(token, link):
 def count_clicks(token, link):
     bitly_url = "https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary"   # Noqa E501
     headers = {
-        "Authorization": token
+        "Authorization": f"Bearer {token}"
     }
     parsed = urlparse(link)
     bitlink = parsed.hostname + parsed.path
@@ -41,11 +42,10 @@ def is_bitlink(link):
 
 
 def main():
-    token = os.getenv("TOKEN")
     link = input("Введите ссылку: ")
     if is_bitlink(link):
         try:
-            clicks_count = count_clicks(token, link)
+            clicks_count = count_clicks(TOKEN, link)
             print("Количество кликов по ссылке:", clicks_count)
         except requests.exceptions.HTTPError as err:
             print("General Error, incorrect link\n", str(err))
@@ -53,7 +53,7 @@ def main():
             print("Connection Error. Check Internet connection.\n", str(err))
     else:
         try:
-            bitlink = shorten_link(token, link)
+            bitlink = shorten_link(TOKEN, link)
             print("Битлинк:", bitlink)
         except requests.exceptions.HTTPError as err:
             print("General Error, incorrect link\n", str(err))
