@@ -1,15 +1,9 @@
+import os
+from dotenv import load_dotenv
 import requests
 from urllib.parse import urlparse
 
-
-def get_profile():
-    url = "https://api-ssl.bitly.com/v4/user"
-    headers = {
-        "Authorization": "Bearer 460748298a0b18b03b167966218c85ceac477e41"
-    }
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    return response
+load_dotenv()
 
 
 def shorten_link(token, link):
@@ -27,7 +21,7 @@ def shorten_link(token, link):
 
 
 def count_clicks(token, link):
-    bitly_url = "https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary"
+    bitly_url = "https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary"   # Noqa E501
     headers = {
         "Authorization": token
     }
@@ -47,7 +41,7 @@ def is_bitlink(link):
 
 
 def main():
-    token = "Bearer 460748298a0b18b03b167966218c85ceac477e41"
+    token = os.getenv("TOKEN")
     link = input("Введите ссылку: ")
     if is_bitlink(link):
         try:
