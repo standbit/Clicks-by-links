@@ -1,7 +1,8 @@
 import os
+from urllib.parse import urlparse
 from dotenv import load_dotenv
 import requests
-from urllib.parse import urlparse
+
 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
