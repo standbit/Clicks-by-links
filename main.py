@@ -4,10 +4,6 @@ from dotenv import load_dotenv
 import requests
 
 
-load_dotenv()
-TOKEN = os.getenv("TOKEN")
-
-
 def shorten_link(token, link):
     bitly_url = "https://api-ssl.bitly.com/v4/bitlinks"
     payload = {
@@ -43,6 +39,8 @@ def is_bitlink(link):
 
 
 def main():
+    load_dotenv()
+    TOKEN = os.getenv("TOKEN")
     link = input("Введите ссылку: ")
     if is_bitlink(link):
         try:
