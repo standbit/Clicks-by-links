@@ -40,11 +40,11 @@ def is_bitlink(link):
 
 def main():
     load_dotenv()
-    TOKEN = os.getenv("TOKEN")
+    token = os.getenv("BITLY_TOKEN")
     link = input("Введите ссылку: ")
     if is_bitlink(link):
         try:
-            clicks_count = count_clicks(TOKEN, link)
+            clicks_count = count_clicks(token, link)
             print("Количество кликов по ссылке:", clicks_count)
         except requests.exceptions.HTTPError as err:
             print("General Error, incorrect link\n", str(err))
@@ -52,7 +52,7 @@ def main():
             print("Connection Error. Check Internet connection.\n", str(err))
     else:
         try:
-            bitlink = shorten_link(TOKEN, link)
+            bitlink = shorten_link(token, link)
             print("Битлинк:", bitlink)
         except requests.exceptions.HTTPError as err:
             print("General Error, incorrect link\n", str(err))
