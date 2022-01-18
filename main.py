@@ -24,7 +24,7 @@ def count_clicks(token, link):
         "Authorization": f"Bearer {token}"
     }
     parsed = urlparse(link)
-    bitlink = parsed.hostname + parsed.path
+    bitlink = '{}{}'.format(parsed.hostname, parsed.path)
     response = requests.get(bitly_url.format(bitlink=bitlink), headers=headers)
     response.raise_for_status()
     clicks_count = response.json()["total_clicks"]
