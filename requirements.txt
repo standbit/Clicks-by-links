@@ -1,6 +1,2 @@
-certifi==2021.10.*
-charset-normalizer==2.0.*
-idna==3.*
 python-dotenv==0.19.*
 requests==2.27.*
-urllib3==1.26.*
