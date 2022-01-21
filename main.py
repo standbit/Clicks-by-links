@@ -1,7 +1,8 @@
+import argparse
 import os
 from urllib.parse import urlparse
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
 
 
 def shorten_link(token, link):
@@ -46,10 +47,20 @@ def is_bitlink(link, token):
     return response.ok
 
 
+def create_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "link",
+        help="""will make bit-link from ordinary link\
+            or will count clicks if bitlink inputed""")
+    return parser
+
+
 def main():
     load_dotenv()
     token = os.getenv("BITLY_TOKEN")
-    link = input("Введите ссылку: ")
+    args = create_parser().parse_args()
+    link = args.link
     if is_bitlink(link, token):
         try:
             clicks_count = count_clicks(token, link)
