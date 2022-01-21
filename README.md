@@ -27,7 +27,7 @@ $ python3 -m pip install -r requirements.txt
 ```python
 $ python3 main.py https://bit.ly/3GDWBQz
 ```
-Пример,
+![2022-01-21_22-47-37](https://user-images.githubusercontent.com/77130336/150592039-7c79c51d-0682-4ec9-895d-df2f443e315b.png)
 
 Работайте со ссылками!
 
